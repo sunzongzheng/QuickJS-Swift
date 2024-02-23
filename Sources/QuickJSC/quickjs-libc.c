@@ -2729,7 +2729,7 @@ static int my_execvpe(const char *filename, char **argv, char **envp)
         return -1;
     }
     if (strchr(filename, '/'))
-        return execve(filename, argv, envp);
+        //return execve(filename, argv, envp);
     
     path = getenv("PATH");
     if (!path)
@@ -2753,7 +2753,7 @@ static int my_execvpe(const char *filename, char **argv, char **envp)
         memcpy(buf + path_len + 1, filename, filename_len);
         buf[path_len + 1 + filename_len] = '\0';
         
-        execve(buf, argv, envp);
+        //execve(buf, argv, envp);
 
         switch(errno) {
         case EACCES:
@@ -2890,7 +2890,8 @@ static JSValue js_os_exec(JSContext *ctx, JSCValueonst this_val,
         }
     }
 
-    pid = fork();
+    //pid = fork();
+    pid = -1;
     if (pid < 0) {
         JS_ThrowTypeError(ctx, "fork error");
         goto exception;
@@ -2927,7 +2928,7 @@ static JSValue js_os_exec(JSContext *ctx, JSCValueonst this_val,
         if (use_path)
             ret = my_execvpe(file, (char **)exec_argv, envp);
         else
-            ret = execve(file, (char **)exec_argv, envp);
+            //ret = execve(file, (char **)exec_argv, envp);
         _exit(127);
     }
     /* parent */
